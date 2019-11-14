@@ -1,0 +1,63 @@
+package net.project.platedetection.addmin;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+
+/**
+ * Servlet Filter implementation class SignupCodeFilter0
+ */
+@WebFilter("/SignupServlet")
+public class SignupCodeFilter0 implements Filter {
+
+    /**
+     * Default constructor. 
+     */
+    public SignupCodeFilter0() {
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		// set UTF-8
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		//接收表單變數request.getParameter("name")
+		String pwd = request.getParameter("pwd");
+		String conform = request.getParameter("conform");
+		if(pwd.equals(conform)) {
+			// pass the request along the filter chain
+			chain.doFilter(request, response);
+		}else {
+			out.print("密碼輸入不一樣，請再次輸入!");
+			request.getRequestDispatcher("signup.jsp").include(request, response);
+		}
+		
+	}
+
+	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+		// TODO Auto-generated method stub
+	}
+
+}
